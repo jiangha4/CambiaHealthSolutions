@@ -21,12 +21,23 @@ def getCsvInput(fileName):
         Output: List - list of all CSV elements
     '''
     with open(fileName, 'r') as inputFile:
-        reader = csv.reader(inputFile)
+        reader = csv.reader(inputFile, skipinitialspace=True, delimiter=',')
         return list(reader)[0]
+
+def writeCsvOutput(data):
+    '''
+        Input: List[str] - Sorted list to be written
+        Output: None
+    '''
+    DATA = [data]
+    with open('output.csv', 'w') as outputFile:
+        writer = csv.writer(outputFile)
+        writer.writerows(DATA)
 
 def main(args):
     csvInput = getCsvInput(args.file)
-    print(csvInput)
+    csvInput.sort(key=str.lower)
+    writeCsvOutput(csvInput)
 
 if __name__=='__main__':
     args = argumentParser()
